@@ -30,7 +30,7 @@ function LockScreen() {
 	-heading "Congratulations ${LoggedInUser}" \
 	-description "Your Mac is being customized.
 	This may take up to 30 minutes, depending on your network speed.
-	Please call Central Help Desk at 1-800-527-4740 if you need assistance." \
+	Please call Central Help Desk at <number> if you need assistance." \
 	-icon /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/com.apple.macbook-retina-space-gray.icns \
 	-iconSize "256" \
 	-alignDescription "center" \
@@ -41,9 +41,9 @@ function LockScreen() {
 
 function ProvisionEA() {
 
-	sudo mkdir /usr/local/ti
-	sudo chmod 777 /usr/local/ti
-	sudo /usr/libexec/PlistBuddy -c "add :Status string Not Provisioned" -c "add :ProvisioningScript string 0.0.0" -c "add :SCEPStatus string None" /usr/local/ti/com.ti.provisioned.plist &&
+	sudo mkdir /usr/local/
+	sudo chmod 777 /usr/local/
+	sudo /usr/libexec/PlistBuddy -c "add :Status string Not Provisioned" -c "add :ProvisioningScript string 0.0.0" -c "add :SCEPStatus string None" /usr/local/com.<name>.provisioned.plist &&
 
 	$(LockScreen)
 
@@ -62,7 +62,7 @@ function ProvisionEA() {
 }
 
 function SetProvision() {
-	sudo /usr/libexec/PlistBuddy -c "Set :ProvisioningScript 2.0.0" -c "Set :Status Provisioned" -c "Set :SCEPStatus Success" /usr/local/ti/com.ti.provisioned.plist
+	sudo /usr/libexec/PlistBuddy -c "Set :ProvisioningScript 2.0.0" -c "Set :Status Provisioned" -c "Set :SCEPStatus Success" /usr/local/../com....provisioned.plist
 }
 
 function CompName() {
@@ -83,10 +83,10 @@ function CompName() {
 JSSAPIpass="${4}"
 
 function APICall() {
-	jssURL="https://jssdmz.ext.ti.com:8443/JSSResource"
+	jssURL=""
 	serial=$(/usr/sbin/system_profiler SPHardwareDataType | awk '/Serial/ {print $4}')
-	jssAPIUser="jssapi"
-	jssAPIPass="${JSSAPIpass}"
+	jssAPIUser=""
+	jssAPIPass=""
 
 	curl -X PUT -H "Accept: application/xml" -H "Content-type: application/xml" -k -u "${jssAPIUser}:${jssAPIPass}" -d "<computer><extension_attributes><attribute><name>${1}</name><value>${2}</value></attribute></extension_attributes></computer>" "${jssURL}"/computers/serialnumber/"${serial}"
 }
@@ -104,7 +104,7 @@ function JAMFHelper() {
 	jhHeading="${2}"
 	jhDescription="Your Mac is being customized.
 	This may take up to 30 minutes, depending on your network speed.
-	Please call Central Help Desk at 1-800-527-4740 if you need assistance."
+	Please call Central Help Desk at <number> if you need assistance."
 
 	"/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfhelper" \
 	-windowType "$windowType" \
@@ -133,13 +133,13 @@ echo "Running SoftwarePrep policy"
 JAMFHelper SoftwarePrep "Preparing Setup" /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ToolbarCustomizeIcon.icns 256 &&
 echo "Software policy ran"
 echo "Running Symantec Policy"
-JAMFHelper SymantecAV "Configuring Symantec Anti Virus" /usr/local/ti/icons/100-sep_app_icon.icns 256 &&
+JAMFHelper SymantecAV "Configuring Symantec Anti Virus" /usr/local/../icons/100-sep_app_icon.icns 256 &&
 echo "Symantec policy ran"
 echo "Running Encryption Policy"
 JAMFHelper Encryption "Encrypting Hard Drive" /System/Library/PreferencePanes/Security.prefPane/Contents/Resources/FileVault.icns 256 &&
 echo "Encryption policy ran"
 echo "Running Pulse Policy"
-JAMFHelper VPN "Installing Pulse" /usr/local/ti/icons/102-pulse.icns 256 &&
+JAMFHelper VPN "Installing Pulse" /usr/local/../icons/102-pulse.icns 256 &&
 echo "Pulse Policy ran"
 echo "Running EC Policy"
 JAMFHelper EC "Configuring Enterprise Connect" /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/BookmarkIcon.icns 256 &&
@@ -148,22 +148,22 @@ echo "Running GP Policy"
 JAMFHelper GP "Configuring Global Protect" /System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/BookmarkIcon.icns 256 &&
 echo "GP policy ran"
 echo "Running YsoftInstall Policy"
-JAMFHelper YsoftInstall "Configuring Printers" /usr/local/ti/icons/200-ySoft.icns 256 &&
+JAMFHelper YsoftInstall "Configuring Printers" /usr/local/../icons/200-ySoft.icns 256 &&
 echo "YsoftInstall policy ran"
 echo "Running CrashPlan Policy"
-JAMFHelper CrashPlan "Installing Crash Plan" /usr/local/ti/icons/201-CrashPlan.icns 256 &&
+JAMFHelper CrashPlan "Installing Crash Plan" /usr/local/../icons/201-CrashPlan.icns 256 &&
 echo "CrashPlan policy ran"
 echo "Running UI Policy"
-JAMFHelper UI "Optimizing User Experience" /usr/local/ti/icons/300-UsersIcon.icns 256 &&
+JAMFHelper UI "Optimizing User Experience" /usr/local/../icons/300-UsersIcon.icns 256 &&
 echo "UI policy ran"
 echo "Running CacheMSOffice2016 Policy"
-JAMFHelper CacheMSOffice2016 "Downloading Microsoft Office 2016" /usr/local/ti/icons/400-msOfficeInstaller.icns 256 &&
+JAMFHelper CacheMSOffice2016 "Downloading Microsoft Office 2016" /usr/local/../icons/400-msOfficeInstaller.icns 256 &&
 echo "CacheMSOffice2016 policy ran"
 echo "Running InstallMSOffice2016 Policy"
-JAMFHelper InstallMSOffice2016 "Installing Microsoft Office 2016" /usr/local/ti/icons/400-msOfficeInstaller.icns 256 &&
+JAMFHelper InstallMSOffice2016 "Installing Microsoft Office 2016" /usr/local/../icons/400-msOfficeInstaller.icns 256 &&
 echo "InstallMSOffice2016 policy ran"
 echo "Running Jabber Policy"
-JAMFHelper Jabber "Installing Jabber" /usr/local/ti/icons/502-CiscoJabber.icns 256 &&
+JAMFHelper Jabber "Installing Jabber" /usr/local/../icons/502-CiscoJabber.icns 256 &&
 echo "Jabber policy ran"
 echo "Running Plugins Policy"
 JAMFHelper Plugins "Installing Internet Plugins" /Applications/Safari.app/Contents/Resources/compass.icns 256 &&
@@ -186,29 +186,29 @@ Recon &&
 echo "Recon policy ran"
 echo "Running Wait Loop"
 for ((i=0; i<300; i++)); do
-	scepCompCert="BF0EC959-14B3-4C75-9CBF-5F2ED8C92858"
+	scepCompCert=""
 	scepCompCertDownload=$(/usr/bin/profiles -P | /usr/bin/grep "${scepCompCert}")
 
-	scepUserCert="79B37066-233D-4046-A092-70E5FD97C1B5"
+	scepUserCert=""
 	scepUserCertDownload=$(/usr/bin/profiles -P | /usr/bin/grep "${scepUserCert}")
 
 	if [[ ! -z "${scepCompCertDownload}" && ! -z "${scepUserCertDownload}" ]]; then
 		break
 	elif [[ ${i} -eq 300 ]]; then
-		sudo /usr/libexec/PlistBuddy -c "Set :SCEPStatus Failed" /usr/local/ti/com.ti.provisioned.plist
+		sudo /usr/libexec/PlistBuddy -c "Set :SCEPStatus Failed" /usr/local/../com....provisioned.plist
 	fi
 	sleep 1
 done
 echo "Wait loop done"
-echo "Removing cpn84"
-sudo networksetup -removepreferredwirelessnetwork "en0" cpn84
-echo "cpn84 removed"
+echo "Removing <network>"
+sudo networksetup -removepreferredwirelessnetwork "en0"
+echo "<network> removed"
 echo "Running recon Policy"
 Recon
 echo "Recon policy ran"
 sudo /usr/bin/killall jamfhelper
 sudo /usr/bin/killall LockScreen
 
-JAMFHelper Enjoy "Enjoy!" /usr/local/ti/icons/999-Success.icns 256
+JAMFHelper Enjoy "Enjoy!" /usr/local/../icons/999-Success.icns 256
 
 exit 0
